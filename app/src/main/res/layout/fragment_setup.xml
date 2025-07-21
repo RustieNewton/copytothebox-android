@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colour1"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setup_heading"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colour6"
+            android:maxWidth="600dp"
+            android:layout_marginBottom="24dp" />
+        <!--  instructions-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setup_instructions"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colour6"
+            android:maxWidth="600dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- STEP 1: File Access -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/file_status_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x_symbol"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_file_access"
+                android:textColor="@color/colour6" />
+
+            <Button
+                android:id="@+id/btn_file_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_grant"
+                android:backgroundTint="@color/colour2"
+                android:textColor="@color/colour6" />
+        </LinearLayout>
+
+        <!-- STEP 2: Notification Permission -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/notifications_status_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x_symbol"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_notifications"
+                android:textColor="@color/colour6" />
+
+            <Button
+                android:id="@+id/btn_notifications_permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_grant"
+                android:backgroundTint="@color/colour2"
+                android:textColor="@color/colour6" />
+        </LinearLayout>
+
+        <!-- STEP 3: Registration -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/registration_status_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x_symbol"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_register"
+                android:textColor="@color/colour6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_register_instruction"
+                android:textColor="@color/colour6"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <!-- Optional: Setup Complete -->
+        <TextView
+            android:id="@+id/setup_complete_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setup_complete"
+            android:textColor="@color/colour6"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</ScrollView>

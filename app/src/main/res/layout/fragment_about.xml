@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colour4"
+    android:theme="@style/ToolbarTheme"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="@string/about_title"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/about_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_version"
+            android:textStyle="bold"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/about_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_description"
+            android:paddingBottom="12dp" />
+
+        <TextView
+            android:id="@+id/about_features_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/about_features_title"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/about_features"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:text="@string/about_features" />
+
+        <TextView
+            android:id="@+id/about_files_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/about_files_title"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/about_files_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_files_description"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/about_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_files"
+            android:paddingBottom="12dp" />
+
+
+        <TextView
+            android:id="@+id/about_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_author"
+            android:textAlignment="viewEnd"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+</ScrollView>

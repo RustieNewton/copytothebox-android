@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colour4"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Registration Instructions Part 1 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_instruction_1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colour6"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:maxWidth="600dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Registration Instructions Part 2 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_instruction_2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colour6"
+            android:maxWidth="600dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start"
+            android:textAlignment="viewStart"/>
+
+        <!-- Registration Instructions Part 3 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_instruction_3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colour6"
+            android:maxWidth="600dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start"
+            android:textAlignment="viewStart"/>
+
+        <!-- Registration Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/registration_status_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colour6" />
+
+            <TextView
+                android:id="@+id/registration_status_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/colour6" />
+        </LinearLayout>
+
+        <!-- Username Field -->
+        <EditText
+            android:id="@+id/edit_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_username"
+            android:textColor="@color/colour6"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:maxWidth="450dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:maxWidth="450dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:text="@string/register_button"
+            android:backgroundTint="@color/colour2"
+            android:textColor="@color/colour6"
+            android:layout_gravity="center"
+            android:minWidth="160dp"
+            android:maxWidth="300dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">CopyToTheBox</string>
+    <!--    MENU-->
+    <string name="menu_status" >Status</string>
+    <string name="menu_register">Register</string>
+    <string name="menu_about">How it works</string>
+    <string name="menu_logs">Logs</string>
+    <string name="menu_setup">Setup</string>
+
+    <!-- MAIN SCREEN -->
+    <string name="last_run_label">Last run time</string>
+    <string name="next_run_label">Next run time</string>
+    <!-- <string name="alarm_status_label">Alarm set? </string> -->
+
+    <!-- reg status used on register screen as well -->
+    <string name="registration_status_label">Have you registered?</string>
+    <string name="registered_report">Registered</string>
+    <string name="not_registered_report">Not registered</string>
+
+    <!-- sync interval -->
+    <string name="interval_status_label">How often? At least every …</string>
+
+    <!--    enable toggle-->
+    <string name="enable_switch_label">Is the app enabled?</string>
+    <string name="enable_on">App on</string>
+    <string name="enable_off">App off</string>
+
+    <!--    gsm toggle-->
+    <string name="gsm_switch_label">OK to use GSM data?</string>
+    <string name="gsm_on">OK</string>
+    <string name="gsm_off">Not OK</string>
+    <!--2 x  buttons -->
+    <string name="change_interval_btn">Change Interval</string>
+    <string name="run_now_btn">Save Now</string>
+
+    <!-- REGISTER SCREEN -->
+    <string name="register_instruction_1">⚠️ DO THIS AT HOME ONLY</string>
+    <string name="register_instruction_2">• You can re-register at any time\n</string>
+    <string name="register_instruction_3">• Be aware that another Brainbox user in your household can register if they can access your device.</string>
+    <string name="hint_username">Your Brainbox username here</string>
+    <string name="hint_password">Your Brainbox password here</string>
+    <string name="register_button">Register now</string>
+
+    <!-- HOW IT WORKS SCREEN -->
+    <string name="about_title">Copy to the box</string>
+    <string name="about_version">Version: 1.0\n</string>
+    <string name="about_description">
+        This app automatically backs up your documents, photos, and videos to your Brainbox personal server.\n
+    </string>
+    <!--    header-->
+    <string name="about_features_title">Features</string>
+    <string name="about_features">
+\t\t• Runs at a chosen interval the screen is turned on\n
+\t\t• Runs once overnight\n
+\t\t• Runs with a button\n
+\t\t• View recent logs\n
+\t\t• Enable or disable the app\n
+\t\t• Enable or disable using mobile data (GSM)
+    </string>
+    <!--    header-->
+    <string name="about_files_title">What files does it back up?</string>
+    <string name="about_files_description">
+        It will back up any files on your device which are <b>changed</b> or <b>created</b> since the last save.
+    </string>
+    <string name="about_files">
+\t\t• Documents\n
+\t\t• Downloads\n
+\t\t• Camera pictures\n
+\t\t• Camera videos\n
+\t\t• Podcasts\n
+\t\t• Audio books\n
+\t\t• Pictures\n
+\t\t• Screenshots\n
+\t\t• Voicenotes\n
+\t\t• Movies\n
+\t\t• Music
+    </string>
+
+    <string name="about_author">Author: <b>Rosalind Newton</b> 2025</string>
+
+    <!-- LOGS SCREEN -->
+    <string name="view_logs">View logs</string>
+    <string name="log_output">Last log entries</string>
+    
+    <!-- ONBOARDING SCREEN -->
+    <string name="setup_heading">Initial Setup</string>
+    <string name="setup_instructions">Your app needs permission to access the files you want to send to Brainbox.\n\nIt also needs to be
+    able to notify you after sending.\n\nDon\'t forget to connect up with Brainbox by registering first.\n\nIt won\'t be able to send anything
+    without you doing these things first.\n\nOnce done you are good to go!</string>
+    <string name="setup_file_access">Grant access to files</string>
+    <string name="setup_notifications">Enable notifications</string>
+    <string name="setup_register">Complete registration</string>
+    <string name="setup_register_instruction">Use Menu → Register</string>
+    <string name="setup_grant">Grant</string>
+    <string name="setup_complete">Setup is complete. You\'re ready to go!</string>
+    <string name="x_symbol">❌</string>
+
+
+</resources>
+

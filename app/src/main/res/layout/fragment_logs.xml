@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/logs_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/button_view_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_logs"
+        tools:ignore="VisualLintButtonSize" />
+
+    <TextView
+        android:id="@+id/log_output_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_output"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp" />
+
+    <ScrollView
+        android:id="@+id/log_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#EFEFEF"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/text_log_output"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:textColor="#000000"
+            android:fontFamily="monospace"
+            android:textSize="14sp" />
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- Your custom Toolbar theme -->
+<style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:textColorPrimary">@color/colour5</item>
+</style>
+</resources>
