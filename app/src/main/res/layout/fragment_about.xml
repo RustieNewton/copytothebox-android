@@ -71,7 +71,14 @@
             android:layout_height="wrap_content"
             android:text="@string/about_files"
             android:paddingBottom="12dp" />
-
+            
+        <!-- phone related info -->
+        <TextView
+            android:id="@+id/about_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_phone"
+            android:paddingBottom="12dp" />
 
         <TextView
             android:id="@+id/about_author"

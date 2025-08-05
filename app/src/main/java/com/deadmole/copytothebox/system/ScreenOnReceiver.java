@@ -17,8 +17,11 @@ public class ScreenOnReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // get context into an obj
         Context appContext = context.getApplicationContext();
+        // FIXME add some more output here ... 
+        if(debugging) Logger.log(appContext, "ScreenOnReceiver: Screen turned on, testing for intent ..."+Intent.ACTION_SCREEN_ON);
+
         if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-            Logger.log(appContext, "ScreenOnReceiver: Screen turned on, running Runner ...");
+            if(debugging) Logger.log(appContext,"calling Runner from ScreenOnReceiver");
             Runner.run(appContext);
         }
     }

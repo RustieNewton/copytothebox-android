@@ -12,34 +12,43 @@ import com.deadmole.copytothebox.runner.Runner;
 import com.deadmole.copytothebox.util.Logger;
 import com.deadmole.copytothebox.util.Constants;
 
+// this is the class that the system runs
 public class RunnerWorker extends Worker {
 
     public RunnerWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }
-
+    // new vv 4 aug
     @NonNull
     @Override
     public Result doWork() {
-        
         boolean debugging = Constants.DEBUG_MODE;
         Context appContext = getApplicationContext();
         boolean success = false;
 
+        if(debugging) Logger.log(appContext, "RunnerWorker: started ... ");
+
         try {
-            Logger.log(appContext, "RunnerWorker: calling Runner.run()");
+            // Optional pre-check: skip if not due
+            if (!Runner.isItTimeToRun()) {
+                if(debugging) Logger.log(appContext, "RunnerWorker: sync not due, skipping execution.");
+                RunnerManager.scheduleNextJob(appContext);
+                return Result.success();
+            }
+
+            if(debugging) Logger.log(appContext, "RunnerWorker: calling Runner.run()");
             success = Runner.run(appContext);
+
         } catch (Exception e) {
-            Logger.log(appContext, "RunnerWorker: runner call failed");
+            if(debugging) Logger.log(appContext, "RunnerWorker: runner call failed - " + e.getMessage());
         }
 
-        Logger.log(appContext, "RunnerWorker: finished with result: " + success);
+        if(debugging) Logger.log(appContext, "RunnerWorker: finished with result: " + success);
 
-        if (success) {
-            RunnerManager.scheduleFallbackJob(appContext); // schedule next fallback
-            return Result.success();
-        } else {
-            return Result.retry(); // Let WorkManager retry on its own schedule
-        }
+        // Always schedule the next job to maintain the chain
+        RunnerManager.scheduleNextJob(appContext);
+
+        // Let WorkManager retry earlier if needed
+        return success ? Result.success() : Result.retry();
     }
 }

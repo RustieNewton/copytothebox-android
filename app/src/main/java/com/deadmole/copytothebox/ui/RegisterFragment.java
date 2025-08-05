@@ -73,9 +73,6 @@ public class RegisterFragment extends Fragment {
         // listener for the one button
         registerBtn.setOnClickListener(v -> performRegister(view));
 
-        // report
-        if(debugging) Logger.log(appContext, "Register fragment opened");
-
         return view;
     }
     //the onViewCreated method is req because we have to wait for the view to load before calling updateStatus()
@@ -105,9 +102,7 @@ public class RegisterFragment extends Fragment {
             } else {
                 statusReport.setText(R.string.not_registered_report);
             }
-        } else {
-            if(debugging) Logger.log(appContext, "Failed to find status report TextView.");
-        }
+        } 
     }
     private void performRegister(View view) {
 
@@ -118,7 +113,7 @@ public class RegisterFragment extends Fragment {
         boolean gsmAvailable = NetworkUtils.isMobileDataAvailable(appContext);
         if( !wifiAvailable && !gsmAvailable ){
             //bail out with logging and toast
-            if(debugging) Logger.log(appContext, "registration failed - no connection");
+            Logger.log(appContext, "registration failed - no connection");
             Toast.makeText(appContext, "No connection - enable wifi or data in settings.", Toast.LENGTH_SHORT).show();
             return;
         }

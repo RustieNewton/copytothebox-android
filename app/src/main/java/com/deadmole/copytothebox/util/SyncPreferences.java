@@ -1,21 +1,33 @@
 package com.deadmole.copytothebox.util;
 import android.content.SharedPreferences;
 import android.content.Context;
+import com.deadmole.copytothebox.BuildConfig;
 
 public class SyncPreferences {
 
     private static SyncPreferences instance;
-    private final SharedPreferences settings;
+    protected final SharedPreferences settings; // protected allows access for MobileSyncPreferences sub class
 
-    // onboarding flags
-    private static final String REGISTERED_FLAG   = "isRegistered";
+    // default onboarding flags
     private static final String FILE_ACCESS_FLAG  = "fileAccessGranted";
     private static final String NOTIFICATION_FLAG = "notificationsGranted";
+    private static final String REGISTERED_FLAG   = "isRegistered";
+
     private static final String KEY_DEFAULTS_SET = "defaults_set";  
 
-    private SyncPreferences(Context context) {
+    // PHONE perm flags
+    private static final String CALL_ACCESS_FLAG = "callAccessGranted";
+    private static final String SMS_ACCESS_FLAG = "smsAccessGranted";
+
+    // PHONE settings
+    private static final String MOBILE_DEFAULTS_SET = "mobile_defaults_set"; 
+    
+    public SyncPreferences(Context context) {
         this.settings = context.getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         setDefaults();
+        if( BuildConfig.FLAVOR.equals("phone")) {
+             setMobileDefaults();      // sets phone-only defaults
+        }
     }
 
     public static void init(Context context) {
@@ -30,9 +42,12 @@ public class SyncPreferences {
         }
         return instance;
     }
-    //set defaults
+
+    //set defaults - sets first time only
     private void setDefaults() {
+        
         if (!settings.getBoolean(KEY_DEFAULTS_SET, false)) {
+
             SharedPreferences.Editor editor = settings.edit();
 
             // onboarding 
@@ -45,28 +60,59 @@ public class SyncPreferences {
             editor.putLong("lastRun",0);
             editor.putInt("syncInterval", 1); 
 
-            // comms status
-            editor.putBoolean("useGSM", false); 
-
             // Mark that defaults have been set
             editor.putBoolean(KEY_DEFAULTS_SET, true);
             editor.apply();
+
+            //set mobile defaults if required
+            setMobileDefaults();
         }
     }
-    /**
-     * Convenience: All onboarding steps completed?
-     */
-    public boolean isSetupComplete() {
-        return getRegisteredFlag()
-                && getNotificationFlag()
-                && getFileAccessFlag();
+    //set defaults
+    private void setMobileDefaults() {
+        if(!BuildConfig.FLAVOR.equals("phone")) return;
+
+        if (!settings.getBoolean(MOBILE_DEFAULTS_SET, false)) {
+            SharedPreferences.Editor editor = settings.edit();
+            // set default perm
+            editor.putBoolean(CALL_ACCESS_FLAG, false); // granted perm?
+            editor.putBoolean(SMS_ACCESS_FLAG,false); //granted perm?
+
+            //set other phone settings
+            editor.putBoolean("useGSM", false); // use gms?
+            editor.putBoolean("pushCalls",false); // push calls?
+            editor.putLong("lastCallPush",0);
+            editor.putBoolean("pushSMS",false); // push sms?
+            editor.putLong("lastSmsPush",0);
+
+            // Mark that defaults have been set
+            editor.putBoolean(MOBILE_DEFAULTS_SET, true);
+            editor.apply();
+        }
     }
+    /* Convenience: All onboarding steps completed */
+    public boolean isSetupComplete() {
+        if (BuildConfig.FLAVOR.equals("phone")) {
+            // 5 tests
+            return getRegisteredFlag()
+                    && getNotificationFlag()
+                    && getFileAccessFlag()
+                    && getCallAccessFlag()
+                    && getSmsAccessFlag();
+        } else {
+            // 3 tests
+            return getRegisteredFlag()
+                    && getNotificationFlag()
+                    && getFileAccessFlag();
+        }
+    }
+
+
     // FILE ACCESS PERMISSION flag
     public void setFileAccessFlag(Boolean setThis) {
         settings.edit().putBoolean(FILE_ACCESS_FLAG, setThis).apply();
     }
     public boolean getFileAccessFlag() {
-        //get constants name
         return settings.getBoolean(FILE_ACCESS_FLAG, false);
     }
     // NOTIFICATIONS PERMISSION flag
@@ -118,6 +164,61 @@ public class SyncPreferences {
         updateLastRun();
         updateNextRun();
     }
+    //SYNC INTERVAL
+    public void setSyncInterval(int hours) {
+        settings.edit().putInt("syncInterval", hours).apply();
+    }
+    public int getSyncInterval() {
+        return settings.getInt("syncInterval", 1);
+    }
+    
+    /*  PERMISSIONS X 2   */ 
+    public void setCallAccessFlag(Boolean setThis) {
+        settings.edit().putBoolean(CALL_ACCESS_FLAG, setThis).apply();
+    }
+    public boolean getCallAccessFlag() {
+        return settings.getBoolean(CALL_ACCESS_FLAG, false);
+    }
+    // sms
+    public void setSmsAccessFlag(Boolean setThis) {
+        settings.edit().putBoolean(SMS_ACCESS_FLAG, setThis).apply();
+    }
+    public boolean getSmsAccessFlag() {
+        return settings.getBoolean(SMS_ACCESS_FLAG, false);
+    }
+
+    /*  CALL LOGS  */
+    public void setPushCalls( boolean setThis) {
+        settings.edit().putBoolean("pushCalls", setThis).apply();
+    }
+    public boolean getPushCalls() {
+        return settings.getBoolean("pushCalls", false);
+    }
+    /* last call log push time */
+    public long getLastCallPush() {
+        return settings.getLong("lastCallPush", 0);
+    }
+    public void setLastCallPush() {
+        long currentTime = System.currentTimeMillis();
+        settings.edit().putLong("lastCallPush", currentTime).apply();
+    }
+
+
+    /*  SMS  messages  */
+    public void setPushSMS( boolean setThis) {
+        settings.edit().putBoolean("pushSMS", setThis).apply();
+    }
+    public boolean getPushSMS() {
+        return settings.getBoolean("pushSMS", false);
+    }
+    /* last SMS push time */
+    public long getLastSmsPush() {
+        return settings.getLong("lastSmsPush", 0);
+    }
+    public void setLastSmsPush() {
+        long currentTime = System.currentTimeMillis();
+        settings.edit().putLong("lastSmsPush", currentTime).apply();
+    }
 
     // use GSM 
     public void setUseGSM( boolean setThis) {
@@ -126,14 +227,5 @@ public class SyncPreferences {
     public boolean getUseGSM() {
         return settings.getBoolean("useGSM", false);
     }
-
-    //SYNC INTERVAL
-    public void setSyncInterval(int hours) {
-        settings.edit().putInt("syncInterval", hours).apply();
-    }
-    public int getSyncInterval() {
-        return settings.getInt("syncInterval", 1);
-    }
-
 
 }

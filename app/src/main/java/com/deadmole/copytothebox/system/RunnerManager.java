@@ -1,10 +1,11 @@
 // File: com/deadmole/copytothebox/system/RunnerManager.java
 package com.deadmole.copytothebox.system;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 
+import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
@@ -16,87 +17,108 @@ import java.util.concurrent.TimeUnit;
 import com.deadmole.copytothebox.util.Logger;
 import com.deadmole.copytothebox.util.Constants;
 import com.deadmole.copytothebox.util.SyncPreferences;
-
+/*
+    this is run
+    set new workManager job after
+        1 enable in ui
+        2 after a run when pressing run now button
+        3 after succ run init by WorkManager
+        4 after changing sync interval in ChoicesFragment
+        5 after reboot in BootReceiver
+*/
 public class RunnerManager {
 
     private static final String UNIQUE_WORK_NAME = "daily-runner-work";
-    private static ScreenOnReceiver screenOnReceiver;
     private static final Boolean debugging = Constants.DEBUG_MODE;
 
     public static void enable(Context context) {
         Context appContext = context.getApplicationContext();
-        Logger.log(appContext, "RunnerManager: enabling...");
+        if(debugging) Logger.log(appContext, "RunnerManager: enabling...");
 
         // init prefs
         SyncPreferences.init(appContext);
 
-        // 1) Register screen on receiver
-        if (screenOnReceiver == null) {
-            Logger.log(appContext, "RunnerManager: registering ScreenOnReceiver ...");
-            screenOnReceiver = new ScreenOnReceiver();
-            IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-            appContext.registerReceiver(screenOnReceiver, filter);
-        }
+        // revised 2 aug after chatgpt realised that the old receiver DIED as soon as the UI was closed
+        // revised 4 aug after chatgpt relised that screen on receivers won't really work
+        // "So, a manifest-declared receiver won’t reliably receive SCREEN_ON/OFF anymore on most modern devices".
+        //You can still listen for these events, but you must *dynamically* register the receiver while your app or a service is running:
 
-        // 2) Schedule fallback OneTime WorkManager job
-        Logger.log(appContext, "RunnerManager: scheduling fallback OneTimeWorkRequest ...");
-        scheduleFallbackJob(context);
+        // requires additional declaration in manifest
+        // 1) Enable manifest-declared ScreenOnReceiver component so it persists after UI close
+        // if(debugging) Logger.log(appContext, "RunnerManager: enabling manifest ScreenOnReceiver component...");
+        // PackageManager pm = appContext.getPackageManager();
+        // ComponentName receiver = new ComponentName(appContext, ScreenOnReceiver.class);
+        // pm.setComponentEnabledSetting(
+        //         receiver,
+        //         PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+        //         PackageManager.DONT_KILL_APP
+        // );
+
+        // 2) Schedule WorkManager job
+        if(debugging) Logger.log(appContext, "RunnerManager: scheduling fallback OneTimeWorkRequest ...");
+        scheduleNextJob(context);
 
         // update prefs for enabled status
         SyncPreferences.getInstance().setSyncEnabled(true);
-        Logger.log(appContext, "RunnerManager: finished enabling");
+        if(debugging) Logger.log(appContext, "RunnerManager: finished enabling");
     }
 
     public static void disable(Context context) {
         Context appContext = context.getApplicationContext();
-        Logger.log(appContext, "RunnerManager: disabling...");
+        if(debugging) Logger.log(appContext, "RunnerManager: disabling...");
 
         //init prefs
         SyncPreferences.init(appContext);
 
-        if (screenOnReceiver != null) {
-            Logger.log(appContext, "RunnerManager: tearing down ScreenOnReceiver...");
-            try {
-                appContext.unregisterReceiver(screenOnReceiver);
-            } catch (IllegalArgumentException ignored) {}
-            screenOnReceiver = null;
-        }
+        // Disable ScreenOnReceiver component in manifest
+        // if(debugging) Logger.log(appContext, "RunnerManager: disabling manifest ScreenOnReceiver component...");
+        // PackageManager pm = appContext.getPackageManager();
+        // ComponentName receiver = new ComponentName(appContext, ScreenOnReceiver.class);
+        // pm.setComponentEnabledSetting(
+        //         receiver,
+        //         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+        //         PackageManager.DONT_KILL_APP
+        // );
 
-        Logger.log(appContext, "RunnerManager: cancelling fallback WorkManager job ...");
+        if(debugging) Logger.log(appContext, "RunnerManager: cancelling WorkManager job ...");
         WorkManager.getInstance(appContext).cancelUniqueWork(UNIQUE_WORK_NAME);
 
         //update prefs
         SyncPreferences.getInstance().setSyncEnabled(false);
 
-        Logger.log(appContext, "RunnerManager: finished disabling");
+        if(debugging) Logger.log(appContext, "RunnerManager: finished disabling");
     }
-
-    //helper method, called by this class and RunnerWorker
-    public static void scheduleFallbackJob(Context context) {
+    // new vv 4 Aug
+    // called by ChoicesFragment and Runner.run
+    public static void scheduleNextJob(Context context) {
         Context appContext = context.getApplicationContext();
-        // Logger.log(appContext, "RunnerManager: scheduling fallback OneTimeWorkRequest ...");
-        
-        //init prefs
         SyncPreferences.init(appContext);
 
-        // use the user's pref for sync interval
-        long intervalHours = SyncPreferences.getInstance().getSyncInterval(); 
+        long intervalHours = SyncPreferences.getInstance().getSyncInterval();
 
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(RunnerWorker.class)
             .setInitialDelay(intervalHours, TimeUnit.HOURS)
-            .setConstraints(new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresCharging(true)
-                .setRequiresDeviceIdle(true)
-                .build())
+            .setConstraints(
+                new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.UNMETERED)
+                    .setRequiresCharging(true)
+                    // .setRequiresDeviceIdle(true)  // avoid unless mandatory
+                    .build()
+            )
+            .setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                30, TimeUnit.MINUTES
+            )
             .build();
 
         WorkManager.getInstance(appContext)
             .enqueueUniqueWork(
                 UNIQUE_WORK_NAME,
-                ExistingWorkPolicy.REPLACE,
+                ExistingWorkPolicy.REPLACE, // remove existing job, replace with this one
                 request
             );
+
+        if (debugging) Logger.log(appContext, "RunnerManager: scheduled next job in " + intervalHours + " hours");
     }
 
 }

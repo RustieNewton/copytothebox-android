@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.deadmole.copytothebox">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,7 +8,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- may not be needed -->
+    <!-- FIXME may not be needed, see WorkManager job -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- foreground services must notify user -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -19,8 +18,14 @@
     <!-- For Android 11+ to allow access to all files via App Settings -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
 
-    <!-- requestLegacyExternalStorage="true" Required for targeting Android 10+ -->
-    <!-- whitelist brainbox domain, config in res/xml/networkSecurityConfig -->
+    <!-- These permissions are considered dangerous and are Play Store-restricted, but we are not using it thank fuck -->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+
+    <!-- access tower data for GSM signal check -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application 
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
@@ -40,6 +45,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Screen on receiver -->
+         <!-- enabled=false, because we want to enable it from the UI, not by default on install  -->
+<!--         <receiver
+            android:name=".system.ScreenOnReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON" />
+            </intent-filter>
+        </receiver> -->
 
         <!-- boot receiver -->
         <receiver

@@ -1,37 +1,54 @@
 <resources>
     <string name="app_name">CopyToTheBox</string>
+
     <!--    MENU-->
     <string name="menu_status" >Status</string>
     <string name="menu_register">Register</string>
     <string name="menu_about">How it works</string>
     <string name="menu_logs">Logs</string>
     <string name="menu_setup">Setup</string>
+    <string name="menu_choices">Choices</string>
 
     <!-- MAIN SCREEN -->
+    <!--    run times-->
     <string name="last_run_label">Last run time</string>
     <string name="next_run_label">Next run time</string>
-    <!-- <string name="alarm_status_label">Alarm set? </string> -->
 
     <!-- reg status used on register screen as well -->
     <string name="registration_status_label">Have you registered?</string>
     <string name="registered_report">Registered</string>
     <string name="not_registered_report">Not registered</string>
 
-    <!-- sync interval -->
+    <!-- sync interval status -->
     <string name="interval_status_label">How often? At least every …</string>
 
     <!--    enable toggle-->
     <string name="enable_switch_label">Is the app enabled?</string>
-    <string name="enable_on">App on</string>
-    <string name="enable_off">App off</string>
+    <string name="enable_on">On</string>
+    <string name="enable_off">Off</string>
+
+    <!-- run now button -->
+    <string name="run_now_btn">Save Now</string>
+
+    <!--    CHOICES SCREEN-->
+    <string name="choices_header" >Your app choices</string>
+    <string name="choices_explanation">Choose how your app works here, enable and disable features</string>
+    <!--    change interval-->
+    <string name="change_interval_label">Select the minimum interval to push files and data</string>
+    <string name="change_interval_btn">Change Interval</string>
 
     <!--    gsm toggle-->
     <string name="gsm_switch_label">OK to use GSM data?</string>
-    <string name="gsm_on">OK</string>
-    <string name="gsm_off">Not OK</string>
-    <!--2 x  buttons -->
-    <string name="change_interval_btn">Change Interval</string>
-    <string name="run_now_btn">Save Now</string>
+    <string name="gsm_on">Yes</string>
+    <string name="gsm_off">No</string>
+    <!-- call data push -->
+    <string name="calls_switch_label">OK to save call data?</string>
+    <string name="calls_on">Yes</string>
+    <string name="calls_off">No</string>
+    <!-- SMS push -->
+    <string name="sms_switch_label">OK to save SMS messages?</string>
+    <string name="sms_on">Yes</string>
+    <string name="sms_off">No</string>
 
     <!-- REGISTER SCREEN -->
     <string name="register_instruction_1">⚠️ DO THIS AT HOME ONLY</string>
@@ -45,17 +62,16 @@
     <string name="about_title">Copy to the box</string>
     <string name="about_version">Version: 1.0\n</string>
     <string name="about_description">
-        This app automatically backs up your documents, photos, and videos to your Brainbox personal server.\n
+        This app automatically backs up your documents, photos, and videos to your Brainbox personal server
     </string>
     <!--    header-->
     <string name="about_features_title">Features</string>
     <string name="about_features">
-\t\t• Runs at a chosen interval the screen is turned on\n
-\t\t• Runs once overnight\n
+\t\t• Runs at a chosen interval when the screen is turned on\n
+\t\t• Runs once when idle and charging\n
 \t\t• Runs with a button\n
 \t\t• View recent logs\n
-\t\t• Enable or disable the app\n
-\t\t• Enable or disable using mobile data (GSM)
+\t\t• Enable or disable the app
     </string>
     <!--    header-->
     <string name="about_files_title">What files does it back up?</string>
@@ -75,7 +91,15 @@
 \t\t• Movies\n
 \t\t• Music
     </string>
-
+    <!-- info about phone related choices -->
+    <string name="about_phone" >
+If you are on a phone, you can also\n 
+\t\t• backup phone call data\n
+\t\t• backup SMS messages\n
+\t\t• Choose to use mobile data (GSM)
+\t\t (you may like to disable this if you are short of data or get charged)
+    </string>
+    <!-- me -->
     <string name="about_author">Author: <b>Rosalind Newton</b> 2025</string>
 
     <!-- LOGS SCREEN -->
@@ -91,6 +115,8 @@
     <string name="setup_notifications">Enable notifications</string>
     <string name="setup_register">Complete registration</string>
     <string name="setup_register_instruction">Use Menu → Register</string>
+    <string name="setup_calls">Grant access to save calls logs</string>
+    <string name="setup_sms">Grant access to save SMS messages</string>
     <string name="setup_grant">Grant</string>
     <string name="setup_complete">Setup is complete. You\'re ready to go!</string>
     <string name="x_symbol">❌</string>

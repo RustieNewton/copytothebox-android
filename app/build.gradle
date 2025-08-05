@@ -11,14 +11,27 @@ android {
 
     defaultConfig {
         applicationId "com.deadmole.copytothebox"
-        minSdk 23
+        minSdk 26
         //noinspection ExpiredTargetSdkVersion
         targetSdk 32
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    flavorDimensions "version"
+    productFlavors {
+        tablet {
+            dimension "version"
+            // You can keep this clean or add suffixes if you want
+            applicationIdSuffix ".tablet"
+            versionNameSuffix "-tablet"
+        }
+        phone {
+            dimension "version"
+            applicationIdSuffix ".phone"
+            versionNameSuffix "-phone"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -29,11 +42,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = '11'
-    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//    }
     buildFeatures {
         compose true
+        buildConfig true // ← this should NOT be false
     }
     packagingOptions {
         jniLibs {

@@ -86,55 +86,6 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- alarm status report 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/alarm_status_label"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colour1" />
-
-                    <TextView
-                        android:id="@+id/alarm_status_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colour1"
-                        android:textStyle="bold" />
-                </LinearLayout>
-                -->
-
-                <!-- registration status report 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/registration_status_label"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colour1" />
-                    <TextView
-                        android:id="@+id/registration_status_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colour1"
-                        android:textStyle="bold" />
-                </LinearLayout>-->
-
                 <!-- interval status report --> 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,36 +111,22 @@
                 </LinearLayout>     
                 
             </LinearLayout>
-       
 
             <!-- RUN NOW button -->
             <Button
                 android:id="@+id/run_now_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:maxWidth="380dp"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="@color/colour2"
-                android:elevation="2dp"
-                android:padding="12dp"
                 android:text="@string/run_now_btn"
-                android:textColor="@color/colour6" 
-                android:contentDescription="@null"/>
-
-            <!-- CHANGE INTERVAL button -->
-            <Button
-                android:id="@+id/change_interval_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:maxWidth="380dp"
+                android:layout_height="72dp"
                 android:backgroundTint="@color/colour2"
-                android:elevation="2dp"
-                android:padding="12dp"
-                android:text="@string/change_interval_btn"
                 android:textColor="@color/colour6"
-                android:contentDescription="@null" />
+                android:layout_gravity="center"
+                android:minWidth="160dp"
+                android:maxWidth="300dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+
+                android:contentDescription="@null"/>
 
             <!-- Enable Switch Section -->
             <LinearLayout
@@ -217,103 +154,55 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    android:weightSum="3">
+                    android:weightSum="3"
+                    >
+
                     <!-- Off Label -->
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="24dp"
-                        android:text="@string/enable_off"
                         android:textColor="@color/colour6"
-                        android:textSize="17sp" />
+                        android:textSize="17sp" 
+                        android:text="@string/enable_off"
+                    />
                     <!-- The Switch -->
                     <androidx.appcompat.widget.SwitchCompat
-                        android:contentDescription="@null"
                         android:id="@+id/enable_toggle_switch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_marginHorizontal="24dp"
                         android:minHeight="48dp"
                         android:scaleX="1.75"
                         android:scaleY="1.75"
                         app:thumbTint="@color/colour3"
-                        app:trackTint="@color/colour6"/>
+                        app:trackTint="@color/colour6"
+                        />
                     <!-- On Label -->
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        android:text="@string/enable_on"
                         android:textColor="@color/colour6"
-                        android:textSize="17sp" />
+                        android:textSize="17sp" 
+                        android:text="@string/enable_on"
+                    />
                 </LinearLayout>
+                
             </LinearLayout>
 
-            <!-- gsm Switch Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
-                <!-- Label Above the Toggle -->
-                <TextView
-                    android:id="@+id/gsm_switch_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:text="@string/gsm_switch_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colour6"
-                    android:textSize="18sp" />
-                <!-- Horizontal Layout for Labels and Switch -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    android:weightSum="3">
-                    <!-- Off Label -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:paddingEnd="24dp"
-                        android:text="@string/gsm_off"
-                        android:textColor="@color/colour6"
-                        android:textSize="17sp" />
-                    <!-- The Switch -->
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/gsm_toggle_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:minHeight="48dp"
-                        android:scaleX="1.75"
-                        android:scaleY="1.75"
-                        app:thumbTint="@color/colour3"
-                        app:trackTint="@color/colour6" />
-                    <!-- On Label -->
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:paddingStart="24dp"
-                        android:text="@string/gsm_on"
-                        android:textColor="@color/colour6"
-                        android:textSize="17sp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
+
+        <!-- spinner container (hidden by default) -->
+        <ProgressBar
+        android:id="@+id/progressSpinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
 
         <!-- Fragment container (initially hidden) holds More info, logs, register fragments-->
         <FrameLayout

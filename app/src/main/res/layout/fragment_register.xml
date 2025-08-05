@@ -113,6 +113,7 @@
             android:minWidth="160dp"
             android:maxWidth="300dp"
             android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            android:paddingRight="32dp"
+            />
     </LinearLayout>
 </ScrollView>

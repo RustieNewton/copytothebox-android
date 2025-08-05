@@ -1,9 +1,5 @@
 package com.deadmole.copytothebox.ui;
 
-import android.Manifest;
-
-import android.app.AlertDialog;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView lastRunTimeView, nextRunTimeView, syncIntervalView; //alarmStatusView, registrationStatusView, 
     private ActionBar actionBar; // used everywhere
     private SwitchCompat enabledSwitch; // used in updateStatus() and onCreate()
-    private SwitchCompat gsmSwitch;
 
+    // new 30 Jul to fix running enableApp each time the UI is opened
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         initPreferences();
         setupToolbar();
         bindViews();
+
+        // ✅ Initialize switch state before attaching listener
+        boolean initialEnabledState = SyncPreferences.getInstance().getSyncEnabled();
+        enabledSwitch.setChecked(initialEnabledState);
+
         setupListeners();
 
         if (!SyncPreferences.getInstance().isSetupComplete()) {
@@ -64,8 +66,56 @@ public class MainActivity extends AppCompatActivity {
             loadStatus();
         }
     }
+
+    private void setupListeners() {
+        // Run now button
+        findViewById(R.id.run_now_btn).setOnClickListener(v -> runNow());
+
+        // Toggle app on and off
+        // ✅ Detach listener first to avoid duplicate callbacks
+        enabledSwitch.setOnCheckedChangeListener(null);
+
+        enabledSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            enableApp(isChecked);
+        });
+    }
+
     public void onResume() {
         super.onResume();
+        loadStatus();
+    }
+
+    // ~~~~~~~~~~~~~ listeners and methods ~~~~~~~~~~~~~~~~~
+    private void runNow() {
+        if(debugging) Logger.log( appContext, "starting sync from UI");
+        ProgressBar spinner = findViewById(R.id.progressSpinner);
+        
+        // Show spinner on UI thread
+        runOnUiThread(() -> spinner.setVisibility(View.VISIBLE));
+
+        new Thread(() -> {
+            boolean success = Runner.run(appContext);
+
+            // Use UI thread to update UI
+            runOnUiThread(() -> {
+                spinner.setVisibility(View.GONE); // Hide spinner
+
+                if (success) {
+                    Toast.makeText(this, "Run succeeded", Toast.LENGTH_SHORT).show();
+                    loadStatus();
+                } else {
+                    Toast.makeText(this, "Run failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
+    }
+    private void enableApp(Boolean isChecked) {
+        Logger.log(appContext,"enabling app with RunnerManager from MainActivity");
+        if (isChecked) {
+            RunnerManager.enable(appContext);
+        } else {
+            RunnerManager.disable(appContext);
+        }
         loadStatus();
     }
 
@@ -73,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
     private void initPreferences() {
         SyncPreferences.init(appContext);
         AuthPreferences.init(appContext);
-
-        // Simulate registration for debug/dev only
-        // AuthPreferences.getInstance().setServerID("...");
-        // AuthPreferences.getInstance().setRsyncID("...");
-        // AuthPreferences.getInstance().setPublicDomain("...");
     }
 
     private void setupToolbar() {
@@ -91,27 +136,7 @@ public class MainActivity extends AppCompatActivity {
         nextRunTimeView = findViewById(R.id.next_run_report);
         syncIntervalView = findViewById(R.id.interval_status_report);
         enabledSwitch = findViewById(R.id.enable_toggle_switch);
-        gsmSwitch = findViewById(R.id.gsm_toggle_switch);
     }
-
-    private void setupListeners() {
-        findViewById(R.id.run_now_btn).setOnClickListener(v -> runNow());
-        findViewById(R.id.change_interval_button).setOnClickListener(v -> showIntervalDialog());
-
-        enabledSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                RunnerManager.enable(appContext);
-            } else {
-                RunnerManager.disable(appContext);
-            }
-            loadStatus();
-        });
-
-        gsmSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> 
-            SyncPreferences.getInstance().setUseGSM(isChecked)
-        );
-    }
-
     private void showSetupFragment() {
         Fragment currentFragment = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_container);
@@ -182,55 +207,10 @@ public class MainActivity extends AppCompatActivity {
         String intervalStr =  interval + " hour(s)";
         syncIntervalView.setText(intervalStr);
 
-        // alarm set flag
-        // boolean alarmIsSet = SyncPreferences.getInstance().getAlarmFlag();
-        // alarmStatusView.setText(alarmIsSet ? "Alarm set" : "Alarm not set");
-
-        // registered flag
-        // boolean isRegistered = SyncPreferences.getInstance().getRegisteredFlag();
-        // registrationStatusView.setText( isRegistered ? "Registered" : "Please register");
-
         //set the enable toggle
         boolean isSyncEnabled = SyncPreferences.getInstance().getSyncEnabled();
         enabledSwitch.setChecked(isSyncEnabled);
 
-        // set the gsm toggle
-        boolean isGsmEnabled = SyncPreferences.getInstance().getUseGSM();
-        gsmSwitch.setChecked(isGsmEnabled);
-    }
-    // background thread version
-    private void runNow() {
-        if(debugging) Logger.log( appContext, "starting sync from UI");
-        new Thread(() -> {
-            boolean success = Runner.run( appContext ); 
-            //use UI thread to report
-            runOnUiThread(() -> {
-                if (success) {
-                    Toast.makeText(this, "Run succeeded", Toast.LENGTH_SHORT).show();
-                    SyncPreferences.getInstance().updateRuntimes();
-                    loadStatus();
-                } else {
-                    Toast.makeText(this, "Run failed", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }).start();
-    }
-    private void showIntervalDialog() {
-        // FIXME make n hours 
-        String[] options = new String[12];
-        for (int i = 0; i < 12; i++) options[i] = (i + 1) + " hour" + (i > 0 ? "s" : "");
-
-        new AlertDialog.Builder(this)
-                .setTitle("Select Interval")
-                .setSingleChoiceItems(options, -1, (dialog, which) -> {
-                    int interval = which + 1;
-                    SyncPreferences.getInstance().setSyncInterval(interval); // update settings
-                    SyncPreferences.getInstance().updateNextRun();  // update settings
-                    loadStatus();
-                    dialog.dismiss();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
     }
     // menu helper
     @Override
@@ -277,7 +257,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.menu_logs) {
             fragment = new LogFragment();
             title = "Logs";
-        } else if (id == R.id.menu_setup) {
+        } else if (id == R.id.menu_choices) {
+            fragment = new ChoicesFragment();
+            title = "Choices";
+        }
+        else if (id == R.id.menu_setup) {
             showSetupFragment();  // Direct to setup from menu
             return true;
         }
