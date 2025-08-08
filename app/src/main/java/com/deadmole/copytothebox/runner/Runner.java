@@ -86,7 +86,7 @@ public class Runner {
         if(debugging) Logger.log(appContext,"app has a server id, pressing on");
 
         // Check if it's time to run
-        if(!isItTimeToRun()) {
+        if(!isItTimeToRun(context)) {
             if(debugging) Logger.log(appContext, "we haven't reached the maximum interval since last run. Bailing out.");
             return false;            
         }
@@ -123,13 +123,10 @@ public class Runner {
         doPhoneStuff(hostname);
 
         // get binary
-        if(debugging) Logger.log(appContext,"locating binary before running it");
-        File rsyncBinary = new File(context.getApplicationInfo().nativeLibraryDir, Constants.RSYNC_BINARY);
-
-        if (!rsyncBinary.exists()) {
-            //if(debugging) Logger.log(appContext, "Bundled rsync binary not found at " + rsyncBinary.getAbsolutePath());
+        File rsyncBinary= findRsyncBinary(context);
+        if(rsyncBinary==null) {
             return false;
-        }
+        } 
 
         // RUN rsync for each module
         if( debugging ) Logger.log(appContext,"Runner: running rsync for each module");
@@ -141,7 +138,7 @@ public class Runner {
         
         // set another WorkManager job
         if(debugging) Logger.log(appContext, "Runner: rescheduling next run/job");
-        RunnerManager.scheduleNextJob(appContext);
+        RunnerManager.scheduleNextJob(appContext); //usage is good
 
         //reset the guard
         isRunning = false;
@@ -150,17 +147,19 @@ public class Runner {
 
         return true;
     }
-    public static boolean isItTimeToRun() {
+    public static boolean isItTimeToRun( Context context ) {
+        // init prefs
+        appContext = context.getApplicationContext();
+        SyncPreferences.init(appContext);
         long currentTime = System.currentTimeMillis();
         long lastRun = SyncPreferences.getInstance().getLastRun(); // millis
         int syncInterval = SyncPreferences.getInstance().getSyncInterval(); // hours
         long nextRun = lastRun + syncInterval * 3600000L;
         return nextRun <= currentTime;
-
     }
     // ---------------- shared helper Methods ----------------
     private static void iterateModules(File rsyncBinary, String hostname, String rsyncID) {
-        if(debugging) Logger.log(appContext,"Runner: running rsync for each of the modules");
+ 
         String binaryPath = rsyncBinary.getAbsolutePath();
         for (SyncTarget target : Constants.SYNC_TARGETS) {
 
@@ -230,6 +229,51 @@ public class Runner {
             return false;
         }
     }
+    private static File findRsyncBinary(Context context) {
+
+        String[] possibleDirs = new String[] {
+            context.getApplicationInfo().nativeLibraryDir,                        // /data/app/your.package/lib
+            context.getApplicationInfo().dataDir + "/lib",                        // /data/user/0/your.package/lib
+            context.getFilesDir().getAbsolutePath(),                              // /data/user/0/your.package/files
+            context.getCodeCacheDir().getAbsolutePath(),                          // /data/user/0/your.package/code_cache
+        };
+
+        for (String dir : possibleDirs) {
+            try {
+                File candidate = new File(dir, Constants.RSYNC_BINARY);
+                if (debugging) {
+                    Logger.log(appContext, "Checking for rsync at: " + candidate.getAbsolutePath());
+                }
+
+                if (candidate.exists()) {
+                    if (debugging) {
+                        Logger.log(appContext, "Found rsync binary at: " + candidate.getAbsolutePath());
+                        Logger.log(appContext, "Readable: " + candidate.canRead() + ", Executable: " + candidate.canExecute());
+                    }
+
+                    // Optionally: ensure executable permission
+                    if (!candidate.canExecute()) {
+                        if(!candidate.setExecutable(true)){
+                            if(debugging) Logger.log(appContext,"cannot set binary to executable, bailing out");
+                            return null;
+                        }
+                        if (debugging) Logger.log(appContext, "Set executable: " + candidate.canExecute());
+                    }
+
+                    return candidate;
+                }
+            } catch (Exception e) {
+                Logger.log(appContext, "Error while checking for rsync in " + dir + ": " + Log.getStackTraceString(e));
+            }
+        }
+
+        if (debugging) {
+            Logger.log(appContext, "Rsync binary not found in expected locations.");
+        }
+
+        return null;
+    }
+
     //build command str
     private static List<String> buildRsyncCommand(String host, SyncTarget target, String rsyncID, String binaryPath) {
         String sourceStr = target.sourcePath + "/"; // append /

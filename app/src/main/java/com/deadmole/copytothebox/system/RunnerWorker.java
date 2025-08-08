@@ -30,9 +30,9 @@ public class RunnerWorker extends Worker {
 
         try {
             // Optional pre-check: skip if not due
-            if (!Runner.isItTimeToRun()) {
+            if (!Runner.isItTimeToRun(appContext)) {
                 if(debugging) Logger.log(appContext, "RunnerWorker: sync not due, skipping execution.");
-                RunnerManager.scheduleNextJob(appContext);
+                RunnerManager.scheduleNextJob(appContext); //appContext is good
                 return Result.success();
             }
 
@@ -40,13 +40,15 @@ public class RunnerWorker extends Worker {
             success = Runner.run(appContext);
 
         } catch (Exception e) {
+            //RunnerWorker: runner call failed - SyncPreferences is not initialized. Call init(context) in Application class.
+
             if(debugging) Logger.log(appContext, "RunnerWorker: runner call failed - " + e.getMessage());
         }
 
         if(debugging) Logger.log(appContext, "RunnerWorker: finished with result: " + success);
 
         // Always schedule the next job to maintain the chain
-        RunnerManager.scheduleNextJob(appContext);
+        RunnerManager.scheduleNextJob(appContext); // good usage
 
         // Let WorkManager retry earlier if needed
         return success ? Result.success() : Result.retry();

@@ -32,6 +32,7 @@ public class RunnerManager {
     private static final Boolean debugging = Constants.DEBUG_MODE;
 
     public static void enable(Context context) {
+
         Context appContext = context.getApplicationContext();
         if(debugging) Logger.log(appContext, "RunnerManager: enabling...");
 
@@ -56,7 +57,7 @@ public class RunnerManager {
 
         // 2) Schedule WorkManager job
         if(debugging) Logger.log(appContext, "RunnerManager: scheduling fallback OneTimeWorkRequest ...");
-        scheduleNextJob(context);
+        scheduleNextJob(appContext); //usage is good
 
         // update prefs for enabled status
         SyncPreferences.getInstance().setSyncEnabled(true);
@@ -91,9 +92,13 @@ public class RunnerManager {
     // new vv 4 Aug
     // called by ChoicesFragment and Runner.run
     public static void scheduleNextJob(Context context) {
+
         Context appContext = context.getApplicationContext();
+
+        //init prefs
         SyncPreferences.init(appContext);
 
+        //get sync interval
         long intervalHours = SyncPreferences.getInstance().getSyncInterval();
 
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(RunnerWorker.class)

@@ -14,4 +14,7 @@
 .cxx
 local.properties
 app/NOTES/
-.idsig
+# Ignore IntelliJ/Android Studio project files
+.idea/
+.idsig# Ignore Android APK signature files
+*.idsig

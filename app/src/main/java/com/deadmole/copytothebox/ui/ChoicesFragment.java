@@ -136,7 +136,7 @@ public class ChoicesFragment extends Fragment {
                     int interval = which + 1;
                     SyncPreferences.getInstance().setSyncInterval(interval); // reset settings
                     SyncPreferences.getInstance().updateNextRun();
-                    RunnerManager.scheduleNextJob(appContext); // cnx existing and create new one
+                    RunnerManager.scheduleNextJob(appContext); // cnx existing and create new one, appContext is good
                     updateStatus();
                     dialog.dismiss();
                 })
