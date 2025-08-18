@@ -67,186 +67,196 @@
                 android:textColor="@color/colour1" />
         </LinearLayout>
 
-        <!-- gsm Switch Section -->
+        <!--        phone only section-->
         <LinearLayout
+            android:id="@+id/phone_only_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:background="@color/colour2"
-            android:layout_marginBottom="10dp" >
-            <!-- Label Above the Toggle -->
-            <TextView
-                android:id="@+id/gsm_switch_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:text="@string/gsm_switch_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colour6"
-                android:textSize="16sp" />
-            <!-- Horizontal Layout for Labels and Switch -->
+            android:visibility="gone">
+
+            <!-- gsm Switch Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:weightSum="3"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/colour2"
+                android:layout_marginBottom="10dp" >
+                <!-- Label Above the Toggle -->
+                <TextView
+                    android:id="@+id/gsm_switch_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:text="@string/gsm_switch_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colour6"
+                    android:textSize="16sp" />
+                <!-- Horizontal Layout for Labels and Switch -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:weightSum="3"
+                    >
+                    <!-- Off Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/colour6"
+                        android:textSize="17sp"
+                        android:text="@string/gsm_off"
+                        />
+                    <!-- The Switch -->
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/gsm_toggle_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:minHeight="48dp"
+                        android:scaleX="1.75"
+                        android:scaleY="1.75"
+                        app:thumbTint="@color/colour3"
+                        app:trackTint="@color/colour6"
+                        />
+                    <!-- On Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/gsm_on"
+                        android:textColor="@color/colour6"
+                        android:textSize="17sp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- call data Switch Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:background="@color/colour2"
+                android:layout_marginBottom="10dp"
                 >
-                <!-- Off Label -->
+                <!-- Label Above the Toggle -->
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/calls_switch_label"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
+                    android:paddingBottom="16dp"
+                    android:text="@string/calls_switch_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colour6"
-                    android:textSize="17sp" 
-                    android:text="@string/gsm_off"
-                />
-                <!-- The Switch -->
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/gsm_toggle_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginHorizontal="24dp"
-                    android:minHeight="48dp"
-                    android:scaleX="1.75"
-                    android:scaleY="1.75"
-                    app:thumbTint="@color/colour3"
-                    app:trackTint="@color/colour6" 
-                />
-                <!-- On Label -->
-                <TextView
-                    android:layout_width="0dp"
+                    android:textSize="16sp" />
+                <!-- Horizontal Layout for Labels and Switch -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="@string/gsm_on"
-                    android:textColor="@color/colour6"
-                    android:textSize="17sp" 
-                />
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:weightSum="3">
+                    <!-- Off Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/calls_off"
+                        android:textColor="@color/colour6"
+                        android:textSize="16sp" />
+                    <!-- The Switch -->
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/call_toggle_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:minHeight="48dp"
+                        android:scaleX="1.75"
+                        android:scaleY="1.75"
+                        app:thumbTint="@color/colour3"
+                        app:trackTint="@color/colour6" />
+                    <!-- On Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/calls_on"
+                        android:textColor="@color/colour6"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <!-- call data Switch Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:background="@color/colour2"
-            android:layout_marginBottom="10dp"
-            >
-            <!-- Label Above the Toggle -->
-            <TextView
-                android:id="@+id/calls_switch_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:text="@string/calls_switch_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colour6"
-                android:textSize="16sp" />
-            <!-- Horizontal Layout for Labels and Switch -->
+            <!-- SMS data Switch Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:weightSum="3">
-                <!-- Off Label -->
+                android:orientation="vertical"
+                android:background="@color/colour2"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                >
+                <!-- Label Above the Toggle -->
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/sms_switch_label"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/calls_off"
+                    android:text="@string/sms_switch_label"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colour6"
                     android:textSize="16sp" />
-                <!-- The Switch -->
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/call_toggle_switch"
-                    android:layout_width="wrap_content"
+                <!-- Horizontal Layout for Labels and Switch -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:minHeight="48dp"
-                    android:scaleX="1.75"
-                    android:scaleY="1.75"
-                    app:thumbTint="@color/colour3"
-                    app:trackTint="@color/colour6" />
-                <!-- On Label -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="@string/calls_on"
-                    android:textColor="@color/colour6"
-                    android:textSize="16sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:weightSum="3">
+                    <!-- Off Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/sms_off"
+                        android:textColor="@color/colour6"
+                        android:textSize="16sp" />
+                    <!-- The Switch -->
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/sms_toggle_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:minHeight="48dp"
+                        android:scaleX="1.75"
+                        android:scaleY="1.75"
+                        app:thumbTint="@color/colour3"
+                        app:trackTint="@color/colour6" />
+                    <!-- On Label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/sms_on"
+                        android:textColor="@color/colour6"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <!-- SMS data Switch Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/colour2"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            >
-            <!-- Label Above the Toggle -->
-            <TextView
-                android:id="@+id/sms_switch_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sms_switch_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colour6"
-                android:textSize="16sp" />
-            <!-- Horizontal Layout for Labels and Switch -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:weightSum="3">
-                <!-- Off Label -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/sms_off"
-                    android:textColor="@color/colour6"
-                    android:textSize="16sp" />
-                <!-- The Switch -->
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/sms_toggle_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:minHeight="48dp"
-                    android:scaleX="1.75"
-                    android:scaleY="1.75"
-                    app:thumbTint="@color/colour3"
-                    app:trackTint="@color/colour6" />
-                <!-- On Label -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="@string/sms_on"
-                    android:textColor="@color/colour6"
-                    android:textSize="16sp" />
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

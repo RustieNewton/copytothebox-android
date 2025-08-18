@@ -100,7 +100,7 @@ If you are on a phone, you can also\n
 \t\t (you may like to disable this if you are short of data or get charged)
     </string>
     <!-- me -->
-    <string name="about_author">Author: <b>Rosalind Newton</b> 2025</string>
+    <string name="about_author">Author: <b>Dr Rosemary Newton</b> 2025</string>
 
     <!-- LOGS SCREEN -->
     <string name="view_logs">View logs</string>

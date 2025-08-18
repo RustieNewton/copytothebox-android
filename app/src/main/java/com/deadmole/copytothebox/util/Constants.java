@@ -10,7 +10,7 @@ public final class Constants {
 
     // register url
     public static final String REGISTER_PROTOCOL = "http"; // poss set to http if possible
-    public static final String REGISTER_HOST  = "brainbox"; // simulate newton.house here if nec and whitelist it as well /res/xml
+    public static final String REGISTER_HOST  = "newton.house"; // simulate newton.house here if nec and whitelist it as well /res/xml
     public static final String REGISTER_PATHNAME = "cgi/register.php";
 
     // PHONE ONLY

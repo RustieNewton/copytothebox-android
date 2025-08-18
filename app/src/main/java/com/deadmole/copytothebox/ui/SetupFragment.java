@@ -73,6 +73,7 @@ public class SetupFragment extends Fragment {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         appContext = requireContext().getApplicationContext(); //this is safe inside a method, nb diff to MainActivity handling
@@ -85,11 +86,12 @@ public class SetupFragment extends Fragment {
         notificationStatusIcon = view.findViewById(R.id.notifications_status_icon);
         registrationStatusIcon = view.findViewById(R.id.registration_status_icon);
         setupCompleteMsg = view.findViewById(R.id.setup_complete_msg);
+        callsStatusIcon = view.findViewById(R.id.calls_status_icon);
+        smsStatusIcon   = view.findViewById(R.id.sms_status_icon);
 
-        // fixme add phone calls db status if phone versin
-        if(BuildConfig.FLAVOR.equals("phone")) {
-            callsStatusIcon = view.findViewById(R.id.calls_status_icon);
-            smsStatusIcon   = view.findViewById(R.id.sms_status_icon);
+        if (BuildConfig.FLAVOR.equals("phone")) {
+            //phone only section defaults to GONE
+            view.findViewById(R.id.phone_only_section).setVisibility(View.VISIBLE);
         }
 
         // button elements
@@ -111,7 +113,7 @@ public class SetupFragment extends Fragment {
     }
 
     @Override
-    // FIXME add phone blocks
+    @SuppressWarnings("ConstantConditions")
     public void onResume() {
         super.onResume();
 
@@ -165,10 +167,10 @@ public class SetupFragment extends Fragment {
             }
         }
     }
-
+    @SuppressWarnings("ConstantConditions")
     private void updateUI() {
-        String tickSymbol = "\u2705";
-        String crossSymbol ="\u274C";
+        String tickSymbol = "✅";
+        String crossSymbol ="❌";
 
         appContext = requireContext().getApplicationContext(); // safe inside method
 

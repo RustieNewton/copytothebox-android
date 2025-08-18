@@ -123,7 +123,7 @@ public class Runner {
         doPhoneStuff(hostname);
 
         // get binary
-        File rsyncBinary= findRsyncBinary(context);
+        File rsyncBinary= findRsyncBinary(appContext); // FIXME check this function on bedroom tablet, and sitting rm tablet
         if(rsyncBinary==null) {
             return false;
         } 
@@ -232,12 +232,12 @@ public class Runner {
     private static File findRsyncBinary(Context context) {
 
         String[] possibleDirs = new String[] {
-            context.getApplicationInfo().nativeLibraryDir,                        // /data/app/your.package/lib
+            context.getApplicationInfo().nativeLibraryDir,                        // /data/app/your.package/lib the orig vv
             context.getApplicationInfo().dataDir + "/lib",                        // /data/user/0/your.package/lib
             context.getFilesDir().getAbsolutePath(),                              // /data/user/0/your.package/files
             context.getCodeCacheDir().getAbsolutePath(),                          // /data/user/0/your.package/code_cache
         };
-
+ 
         for (String dir : possibleDirs) {
             try {
                 File candidate = new File(dir, Constants.RSYNC_BINARY);

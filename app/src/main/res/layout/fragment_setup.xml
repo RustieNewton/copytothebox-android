@@ -126,70 +126,78 @@
                 android:textStyle="italic" />
         </LinearLayout>
 
-        <!-- STEP 4 (phone only): read call logs Permission -->
+        <!--        phone only section-->
         <LinearLayout
+            android:id="@+id/phone_only_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:id="@+id/calls_status_icon"
-                android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <!-- STEP 4 (phone only): read call logs Permission -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/x_symbol"
-                android:textSize="18sp"
-                android:layout_marginEnd="8dp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/setup_calls"
-                android:textColor="@color/colour6" />
+                <TextView
+                    android:id="@+id/calls_status_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/x_symbol"
+                    android:textSize="18sp"
+                    android:layout_marginEnd="8dp"/>
 
-            <Button
-                android:id="@+id/btn_calls_permission"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/setup_calls"
+                    android:textColor="@color/colour6" />
+
+                <Button
+                    android:id="@+id/btn_calls_permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setup_grant"
+                    android:backgroundTint="@color/colour2"
+                    android:textColor="@color/colour6" />
+            </LinearLayout>
+
+            <!-- STEP 5: (phone only) SMS Permission -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/setup_grant"
-                android:backgroundTint="@color/colour2"
-                android:textColor="@color/colour6" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:id="@+id/sms_status_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/x_symbol"
+                    android:textSize="18sp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/setup_sms"
+                    android:textColor="@color/colour6" />
+
+                <Button
+                    android:id="@+id/btn_sms_permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setup_grant"
+                    android:backgroundTint="@color/colour2"
+                    android:textColor="@color/colour6" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- STEP 5: (phone only) SMS Permission -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:id="@+id/sms_status_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/x_symbol"
-                android:textSize="18sp"
-                android:layout_marginEnd="8dp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/setup_sms"
-                android:textColor="@color/colour6" />
-
-            <Button
-                android:id="@+id/btn_sms_permission"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setup_grant"
-                android:backgroundTint="@color/colour2"
-                android:textColor="@color/colour6" />
-        </LinearLayout>
-        
         <!-- Optional: Setup Complete -->
         <TextView
             android:id="@+id/setup_complete_msg"
